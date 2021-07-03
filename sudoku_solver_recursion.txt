@@ -1,0 +1,5 @@
+1. Find blank space to fill number
+2. Find all available number to fill
+3.1. If available not None, loop to all the number in available and recursion to step 1
+3.2. If available is None, back to the previous step, delete the number and continue to the next element
+4. Finish when the board is full
