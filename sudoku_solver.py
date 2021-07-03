@@ -7,7 +7,7 @@ class SudokuSolver(object):
     def __init__(self, arr):
         self.arr = arr
 
-    def get_ava_number(self, row, col):
+    def _get_ava_number(self, row, col):
         if self.arr[row][col] != 0:
             return None
         tmp = [i for i in range(1, 10)]
@@ -25,7 +25,7 @@ class SudokuSolver(object):
                     tmp.remove(self.arr[r][c])
         return tmp
 
-    def find_blank(self, row, col):
+    def _find_blank(self, row, col):
         num = 9*row + col
         for i in range(num, 81):
             next_row = i // 9
@@ -34,23 +34,23 @@ class SudokuSolver(object):
                 return next_row, next_col
         return None
 
-    def solve(self, cur_row, cur_col):
-        if not self.find_blank(cur_row, cur_col):
+    def _solve(self, cur_row, cur_col):
+        if not self._find_blank(cur_row, cur_col):
             return True
-        next_row, next_col = self.find_blank(cur_row, cur_col)
-        ava_list = self.get_ava_number(next_row, next_col)
+        next_row, next_col = self._find_blank(cur_row, cur_col)
+        ava_list = self._get_ava_number(next_row, next_col)
         for number in ava_list:
             self.arr[next_row][next_col] = number
-            if self.solve(next_row, next_col):
+            if self._solve(next_row, next_col):
                 return True
             self.arr[next_row][next_col] = 0
         return False
 
     def solver(self):
         print("solving...")
-        res = self.solve(0, 0)
+        res = self._solve(0, 0)
         print("done.")
-        return res
+        return res, self.arr
 
     def print(self):
         for row in self.arr:
