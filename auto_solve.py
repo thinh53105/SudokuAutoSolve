@@ -4,10 +4,6 @@ import keras
 from sudoku_solver import SudokuSolver
 import sys
 
-path = 'test_images/easy.png'
-model_path ='models/digit_model28x28.h5'
-size_of_digit_img = 28
-
 def load_picture(filename):
     return cv.imread(filename)
 
@@ -144,17 +140,28 @@ def solve_sudoku(blank_sudoku_board, num_board, num_board2, show=False):
     return blank_sudoku_board, answer_arr
 
 if __name__ == '__main__':
-    raw_picture = load_picture(path)
-    model = load_model(model_path)
-    fixed_picture = preprocessing_images(raw_picture, show=True)
-    gray_picture = to_gray_scale(fixed_picture, show=False)
-    binary_picture = to_binary_scale(gray_picture, show=False)
-    bounding_box = find_box(binary_picture)
-    sudoku_board = get_sudoku_board(fixed_picture, bounding_box, show=False)
-    squares_img_list = split_squares(sudoku_board)
-    squares_num_list = get_num_list(squares_img_list, model)
-    norm_board, norm_board2 = normalize_board(squares_num_list), normalize_board(squares_num_list)
+    path = 'test_images/easy.png'
+    model_path = 'models/digit_model28x28.h5'
+    size_of_digit_img = 28
 
-    solve_sudoku(sudoku_board, norm_board, norm_board2, show=True)
+    args = sys.argv[1:]
+    if args:
+        path = args[0].replace("'", '')
+
+    raw_picture = load_picture(path)
+    if raw_picture is not None:
+        model = load_model(model_path)
+        fixed_picture = preprocessing_images(raw_picture, show=True)
+        gray_picture = to_gray_scale(fixed_picture, show=False)
+        binary_picture = to_binary_scale(gray_picture, show=False)
+        bounding_box = find_box(binary_picture)
+        sudoku_board = get_sudoku_board(fixed_picture, bounding_box, show=False)
+        squares_img_list = split_squares(sudoku_board)
+        squares_num_list = get_num_list(squares_img_list, model)
+        norm_board, norm_board2 = normalize_board(squares_num_list), normalize_board(squares_num_list)
+
+        solve_sudoku(sudoku_board, norm_board, norm_board2, show=True)
+    else:
+        print('Path not exist!')
 
     cv.destroyAllWindows()
