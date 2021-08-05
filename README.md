@@ -1,5 +1,6 @@
 # SudokuAutoSolve
-Input an unsolved sudoku image and this app automatically solve it.
+Input an unsolved sudoku image, this app will automatically solve it.
+![image info](./test_images/solved.png)
 ### Install requirements
 ```pip
 pip install -r requirements.txt
