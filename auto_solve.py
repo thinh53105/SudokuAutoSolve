@@ -139,6 +139,7 @@ def solve_sudoku(blank_sudoku_board, num_board, num_board2, show=False):
         cv.waitKey()
     return blank_sudoku_board, answer_arr
 
+
 if __name__ == '__main__':
     path = 'test_images/easy.png'
     model_path = 'models/digit_model28x28.h5'
